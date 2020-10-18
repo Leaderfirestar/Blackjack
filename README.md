@@ -1,1 +1,2 @@
 # Blackjack
+This project is my attempt to create a command line version of casino blackjack. The game is complete with hits, stands, and splits. In the future, I plan to create a determineWinner function to help clean up my code, as I let my main method get cluttered up with all of the different possible outcomes. I'd also plan to find a better fix for implementing a split hand, and in turn, clean up the determineWinner. In the far future, I'd like to implement swing and create a gui interface
