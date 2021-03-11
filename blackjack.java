@@ -96,6 +96,9 @@ class Player{
         }
         String command;
         if(this.name != "computer"){
+            if(this.getScore(1) == 21 && this.hand2.size() == 0){
+                this.playBall("hold", hand, deck, computer);
+            }
             command = this.scan.nextLine();
         }else{
             if(this.getScore(1) < 17){
@@ -238,20 +241,22 @@ class myClass{
         deck.dealCards(me, computer);
         me.briefing(1, deck, computer);
         scan.close();
-        System.out.println(String.format("The dealer reveals a %s of %s to compliments his %s of %s", computer.hand1.get(0).name, computer.hand1.get(0).suit, computer.hand1.get(1).name, computer.hand1.get(1).suit));
+        System.out.println(String.format("The dealer reveals a %s of %s to compliment his %s of %s", computer.hand1.get(0).name, computer.hand1.get(0).suit, computer.hand1.get(1).name, computer.hand1.get(1).suit));
         while(computer.getScore(1) < 17){
             computer.playBall("hit", 1, deck, computer);
         }
         System.out.println("Your hand has a score of " + me.getScore(1));
+        if(me.hand2.size() != 0){
+            System.out.println("Your other hand has a score of " + me.getScore(2));
+        }
+        System.out.println("The computer has a score of " + computer.getScore(1));
         if(me.getScore(1) > 21){
             if(me.hand2.size() != 0){
                 if(me.getScore(2) == 21){
                     if(computer.getScore(1) == 21){
                         System.out.println("Your first hand busted, Your second hand is a blackjack, but so was the dealer's. Push!");
-                    }else if(computer.getScore(1) < 21){
-                        System.out.println("Your first hand busted, Your second hand is a blackjack, and the dealer lost to it!");
                     }else{
-                        System.out.println("Your first had busted, but your second pushed with the dealer's blackjack!");
+                        System.out.println("Your first hand busted, Your second hand is a blackjack, and the dealer lost to it!");
                     }
                 }else if(me.getScore(2) > 21){
                     if(computer.getScore(1) > 21){
@@ -260,8 +265,8 @@ class myClass{
                         System.out.println("Your hands busted. Dealer wins");
                     }
                 }
-            }else if(computer.getScore(1) == 21){
-                System.out.println("You busted, dealer has a blackjack!");
+            }else if(computer.getScore(1) > 21){
+                System.out.println("Both hands busted");
             }else{
                 System.out.println("You busted, dealer wins!");
             }
@@ -281,7 +286,7 @@ class myClass{
                     }else if(computer.getScore(1) == 21){
                         System.out.println("Your blackjacks pushed with the dealer!");
                     }else{
-                        System.out.println("You have 2 blackjacks! both hands win!");
+                        System.out.println("You have 2 blackjacks! Both hands win!");
                     }
                 }
             }else if(computer.getScore(1) == 21){
@@ -290,10 +295,6 @@ class myClass{
                 System.out.println("Your blackjack won!");
             }
         }else{
-            if(me.hand2.size() != 0){
-                System.out.println("Your other hand has a score of " + me.getScore(2));
-            }
-            System.out.println("The computer has a score of " + computer.getScore(1));
             if(me.getScore(1) > computer.getScore(1)){
                 if(me.hand2.size() != 0){
                     if(me.getScore(2) > computer.getScore(1)){
@@ -308,7 +309,7 @@ class myClass{
                 }
             }else if(me.getScore(1) < computer.getScore(1)){
                 if(me.hand2.size() != 0){
-                    if(me.getScore(2) > computer.getScore(1)){
+                    if(me.getScore(2) > computer.getScore(1) && me.getScore(2) <= 21){
                         System.out.println("Your first hand loses, but your second hand wins!");
                     }else if(me.getScore(2) < computer.getScore(1)){
                         if(computer.getScore(1) > 21){
@@ -328,10 +329,14 @@ class myClass{
                 }
             }else{
                 if(me.hand2.size() != 0){
-                    if(me.getScore(2) > computer.getScore(1)){
+                    if(me.getScore(2) > computer.getScore(1) && me.getScore(2) <= 21){
                         System.out.println("Your first hand pushes, but your second hand wins!");
-                    }else if(me.getScore(2) < computer.getScore(1)){
+                    }else if(me.getScore(2) < computer.getScore(1) && computer.getScore(1) <= 21){
                         System.out.println("Your first and pushes, and your second hand loses!");
+                    }else if(me.getScore(2) > 21){
+                            System.out.println("Your first hand wins, your second hand busts!");
+                    }else if(computer.getScore(1) > 21){
+                        System.out.println("Both hands win!");
                     }else{
                         System.out.println("Both hands push!");
                     }
